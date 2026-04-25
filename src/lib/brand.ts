@@ -1,10 +1,20 @@
 // WhatsApp business contact — change this number anytime
-export const WHATSAPP_NUMBER = "919999999999"; // your brother's number with country code, no +
-export const BRAND_NAME = "Saanvi Couture";
+export const WHATSAPP_NUMBER = "919999999999"; // your WhatsApp business number with country code, no +
+export const BRAND_NAME = "Jindal Vastrakala";
 export const BRAND_TAGLINE = "Heritage Indian Couture";
 
 export const buildWhatsAppLink = (productName: string, productUrl: string) => {
   const text = `Hello ${BRAND_NAME}! 🙏 I'm interested in: *${productName}*\n${productUrl}\n\nCould you share more details, price & availability?`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+};
+
+export const buildWhatsAppChatLink = () => {
+  const text = `Hello ${BRAND_NAME}! 🙏 I'd like to know more about your collection.`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+};
+
+export const buildVideoConsultLink = () => {
+  const text = `Hello ${BRAND_NAME}! 🎥 I'd like to book a *video consultation* to view your collection live. Please share available time slots.`;
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 };
 

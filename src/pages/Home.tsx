@@ -24,7 +24,7 @@ export default function Home() {
   useEffect(() => {
     document.title = `${BRAND_NAME} — Heritage Indian Couture | Lehengas, Sarees, Suits`;
     const meta = document.querySelector('meta[name="description"]') ?? document.head.appendChild(Object.assign(document.createElement("meta"), { name: "description" }));
-    meta.setAttribute("content", "Shop handcrafted lehengas, Banarasi sarees & unstitched suits from Saanvi Couture, New Delhi. Bridal & festive Indian wear with WhatsApp ordering.");
+    meta.setAttribute("content", "Shop handcrafted lehengas, Banarasi sarees & unstitched suits from Jindal Vastrakala, New Delhi. Bridal & festive Indian wear with WhatsApp ordering.");
 
     supabase
       .from("products")
