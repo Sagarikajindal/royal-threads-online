@@ -13,8 +13,11 @@ export default function Footer() {
               <img src={logo} alt={BRAND_NAME} className="h-12 w-12 object-contain bg-background rounded-full p-1" width={48} height={48} loading="lazy" />
               <span className="font-serif text-xl">{BRAND_NAME}</span>
             </div>
-            <p className="text-sm opacity-80 leading-relaxed">
-              Heritage Indian couture handcrafted in New Delhi. Celebrating timeless elegance for the modern woman.
+            <p className="text-sm opacity-80 leading-relaxed italic font-serif">
+              {BRAND_TAGLINE}
+            </p>
+            <p className="text-sm opacity-70 leading-relaxed mt-3">
+              Heritage Indian sarees & couture handcrafted in Old Delhi.
             </p>
           </div>
 
@@ -33,9 +36,9 @@ export default function Footer() {
           <div>
             <h3 className="font-serif text-lg mb-4 text-gold-light">Contact</h3>
             <ul className="space-y-3 text-sm opacity-80">
-              <li className="flex items-start gap-2"><MapPin size={16} className="mt-0.5 shrink-0" /> New Delhi, India</li>
-              <li className="flex items-start gap-2"><Phone size={16} className="mt-0.5 shrink-0" /> +91 99999 99999</li>
-              <li className="flex items-start gap-2"><Mail size={16} className="mt-0.5 shrink-0" /> hello@saanvicouture.com</li>
+              <li className="flex items-start gap-2"><MapPin size={16} className="mt-0.5 shrink-0" /> {BRAND_ADDRESS}</li>
+              <li className="flex items-start gap-2"><Phone size={16} className="mt-0.5 shrink-0" /> <a href={`tel:${BRAND_PHONE.replace(/\s/g, "")}`} className="hover:text-gold transition-smooth">{BRAND_PHONE}</a></li>
+              <li className="flex items-start gap-2"><Mail size={16} className="mt-0.5 shrink-0" /> <a href={`mailto:${BRAND_EMAIL}`} className="hover:text-gold transition-smooth break-all">{BRAND_EMAIL}</a></li>
             </ul>
           </div>
 
@@ -54,7 +57,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gold/20 mt-12 pt-6 text-xs opacity-70 text-center">
-          © {new Date().getFullYear()} {BRAND_NAME}. All rights reserved. Crafted with love in New Delhi.
+          © {new Date().getFullYear()} {BRAND_NAME}. All rights reserved. Crafted with love in Old Delhi.
         </div>
       </div>
     </footer>
