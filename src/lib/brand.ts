@@ -1,7 +1,10 @@
 // WhatsApp business contact — change this number anytime
-export const WHATSAPP_NUMBER = "919999999999"; // your WhatsApp business number with country code, no +
+export const WHATSAPP_NUMBER = "918368319092"; // WhatsApp business number, country code, no +
 export const BRAND_NAME = "Jindal Vastrakala";
-export const BRAND_TAGLINE = "Heritage Indian Couture";
+export const BRAND_TAGLINE = "Timeless Sarees. Woven Traditions.";
+export const BRAND_PHONE = "+91 83683 19092";
+export const BRAND_EMAIL = "jindalvastrakala@gmail.com";
+export const BRAND_ADDRESS = "4235, Ram Ram Ji Complex, Nai Sarak, Jogiwara, Delhi – 110006";
 
 export const buildWhatsAppLink = (productName: string, productUrl: string) => {
   const text = `Hello ${BRAND_NAME}! 🙏 I'm interested in: *${productName}*\n${productUrl}\n\nCould you share more details, price & availability?`;

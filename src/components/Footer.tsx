@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram, Youtube, MapPin, Mail, Phone } from "lucide-react";
-import { BRAND_NAME, CATEGORIES } from "@/lib/brand";
+import { BRAND_NAME, BRAND_TAGLINE, BRAND_PHONE, BRAND_EMAIL, BRAND_ADDRESS, CATEGORIES } from "@/lib/brand";
 import logo from "@/assets/logo.png";
 
 export default function Footer() {
