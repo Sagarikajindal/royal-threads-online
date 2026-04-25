@@ -196,7 +196,7 @@ export default function ProductDetail() {
           <div className="border-t border-b border-border py-6 grid grid-cols-2 gap-4 mb-6 text-sm">
             {product.fabric && <div><span className="text-muted-foreground">Fabric:</span> <span className="font-medium">{product.fabric}</span></div>}
             {product.color && <div><span className="text-muted-foreground">Colour:</span> <span className="font-medium">{product.color}</span></div>}
-            <div><span className="text-muted-foreground">Status:</span> <span className={cn("font-medium", product.in_stock ? "text-green-700" : "text-destructive")}>{product.in_stock ? "In Stock" : "Sold Out"}</span></div>
+            <div><span className="text-muted-foreground">Status:</span> <span className={cn("font-medium", product.in_stock ? "text-gold-deep" : "text-destructive")}>{product.in_stock ? "In Stock" : "Sold Out"}</span></div>
             <div><span className="text-muted-foreground">Origin:</span> <span className="font-medium">New Delhi, India</span></div>
           </div>
 
