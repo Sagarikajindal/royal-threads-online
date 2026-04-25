@@ -226,8 +226,8 @@ export default function ProductDetail() {
       {embed && (
         <section className="container mx-auto px-4 py-12">
           <h2 className="font-serif text-3xl text-primary text-center mb-8">See it in motion</h2>
-          <div className="max-w-md mx-auto aspect-[9/16] bg-black overflow-hidden">
-            <iframe src={embed} className="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+          <div className="max-w-md mx-auto aspect-[9/16] bg-foreground overflow-hidden">
+            <iframe src={embed} className="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen title={`${product.name} reel`} />
           </div>
         </section>
       )}
