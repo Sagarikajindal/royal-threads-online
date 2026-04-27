@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { ArrowRight, Instagram, PlayCircle, Star } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { BRAND_NAME } from "@/lib/brand";
 
 const INSTAGRAM_URL =
   "https://www.instagram.com/jindalvastrakala?igsh=aWV4ZGl5M2lkOGll&utm_source=qr";
@@ -49,6 +51,23 @@ const getInstagramEmbedUrl = (url: string) => {
 };
 
 export default function CustomerReviews() {
+  useEffect(() => {
+    document.title = `${BRAND_NAME} — Customer Reviews & Feedback`;
+
+    const meta =
+      document.querySelector('meta[name="description"]') ??
+      document.head.appendChild(
+        Object.assign(document.createElement("meta"), {
+          name: "description",
+        })
+      );
+
+    meta.setAttribute(
+      "content",
+      "Watch real customer reviews, feedback reels, and shopping experiences from Jindal Vastrakala customers for sarees, lehengas, and ethnic wear from Chandni Chowk."
+    );
+  }, []);
+
   return (
     <Layout>
       <section className="bg-[#FBF7F0] px-4 py-20 md:py-24">
@@ -100,7 +119,7 @@ export default function CustomerReviews() {
                   <div className="mb-2 flex items-center gap-2 text-gold-deep">
                     <Instagram size={18} />
                     <span className="text-xs font-semibold uppercase tracking-[0.2em]">
-                      Customer Reel
+                      Customer Review
                     </span>
                   </div>
 
