@@ -34,6 +34,7 @@ const App = () => (
             <Route path="/admin/new" element={<AdminProductForm />} />
             <Route path="/admin/edit/:id" element={<AdminProductForm />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/customer-reviews" element={<CustomerReviews />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
