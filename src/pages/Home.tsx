@@ -55,7 +55,8 @@ export default function Home() {
                 <span className="text-gradient-gold italic">Woven for You</span>
               </h1>
               <p className="text-lg opacity-90 mb-8 max-w-lg leading-relaxed">
-                Handcrafted lehengas, Banarasi sarees, and luxe unstitched suits — directly from the artisans of New Delhi.
+                <p className="text-lg md:text-xl text-white/90 max-w-xl mb-8 leading-relaxed">
+  Shop premium sarees, bridal lehengas, festive lehengas, and ethnic suits from Chandni Chowk, New Delhi — curated for every wedding, festival, and celebration.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button asChild size="lg" variant="gold">
