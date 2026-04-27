@@ -1,5 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Heart, Search, ShoppingBag, User, Menu, X, LogOut, LayoutDashboard } from "lucide-react";
+import {
+  Heart,
+  Search,
+  ShoppingBag,
+  User,
+  Menu,
+  X,
+  LogOut,
+  LayoutDashboard,
+} from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +23,15 @@ import { BRAND_NAME, CATEGORIES } from "@/lib/brand";
 import logo from "@/assets/logo.png";
 import { cn } from "@/lib/utils";
 
+const TICKER_ITEMS = [
+  "Shipping Worldwide",
+  "Curated from Chandni Chowk",
+  "Crafted in New Delhi",
+  "Sarees, Lehengas & Suits",
+  "Video Shopping Available on WhatsApp",
+  "Bridal & Festive Collections",
+];
+
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { user, isAdmin, signOut } = useAuth();
@@ -24,17 +42,56 @@ export default function Header() {
 
   return (
     <>
-      {/* Top announcement bar */}
-      <div className="bg-primary-deep text-primary-foreground text-xs py-2 text-center tracking-widest uppercase">
-        Free shipping across India · Crafted in New Delhi
+      {/* Top announcement ticker */}
+      <style>{`
+        @keyframes jvTickerScroll {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+
+        .jv-ticker-track {
+          animation: jvTickerScroll 30s linear infinite;
+        }
+
+        .jv-ticker-track:hover {
+          animation-play-state: paused;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .jv-ticker-track {
+            animation: none;
+          }
+        }
+      `}</style>
+
+      <div className="w-full overflow-hidden bg-primary-deep py-2 text-primary-foreground">
+        <div className="jv-ticker-track flex w-max whitespace-nowrap">
+          {[...Array(2)].map((_, groupIndex) => (
+            <div
+              key={groupIndex}
+              className="flex shrink-0 items-center gap-6 px-4 text-[11px] font-medium uppercase tracking-[0.28em] md:gap-8 md:text-xs"
+            >
+              {TICKER_ITEMS.map((item) => (
+                <div key={`${groupIndex}-${item}`} className="flex items-center gap-6 md:gap-8">
+                  <span>{item}</span>
+                  <span className="opacity-50">•</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border">
+      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex h-20 items-center justify-between">
             {/* Mobile menu */}
             <button
-              className="lg:hidden text-primary"
+              className="text-primary lg:hidden"
               onClick={() => setOpen(!open)}
               aria-label="Menu"
             >
@@ -43,39 +100,76 @@ export default function Header() {
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 lg:flex-1">
-              <img src={logo} alt={BRAND_NAME} className="h-12 w-12 object-contain" width={48} height={48} />
-              <span className="hidden sm:block font-serif text-2xl font-semibold text-primary">
+              <img
+                src={logo}
+                alt={BRAND_NAME}
+                className="h-12 w-12 object-contain"
+                width={48}
+                height={48}
+              />
+              <span className="hidden font-serif text-2xl font-semibold text-primary sm:block">
                 {BRAND_NAME}
               </span>
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-10 flex-1 justify-center">
-              <Link to="/" className={cn("text-sm tracking-wide uppercase font-medium transition-smooth hover:text-primary", isActive("/") ? "text-primary" : "text-foreground")}>
+            <nav className="hidden flex-1 items-center justify-center gap-10 lg:flex">
+              <Link
+                to="/"
+                className={cn(
+                  "text-sm font-medium uppercase tracking-wide transition-smooth hover:text-primary",
+                  isActive("/") ? "text-primary" : "text-foreground"
+                )}
+              >
                 Home
               </Link>
+
               {CATEGORIES.map((c) => (
                 <Link
                   key={c.slug}
                   to={`/shop/${c.slug}`}
-                  className={cn("text-sm tracking-wide uppercase font-medium transition-smooth hover:text-primary", isActive(`/shop/${c.slug}`) ? "text-primary" : "text-foreground")}
+                  className={cn(
+                    "text-sm font-medium uppercase tracking-wide transition-smooth hover:text-primary",
+                    isActive(`/shop/${c.slug}`)
+                      ? "text-primary"
+                      : "text-foreground"
+                  )}
                 >
                   {c.label}
                 </Link>
               ))}
-              <Link to="/shop" className="text-sm tracking-wide uppercase font-medium transition-smooth hover:text-primary">
+
+              <Link
+                to="/shop"
+                className={cn(
+                  "text-sm font-medium uppercase tracking-wide transition-smooth hover:text-primary",
+                  isActive("/shop") ? "text-primary" : "text-foreground"
+                )}
+              >
                 Shop All
               </Link>
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center gap-1 lg:gap-2 lg:flex-1 justify-end">
-              <Button variant="ghost" size="icon" onClick={() => navigate("/shop")} aria-label="Search">
+            <div className="flex items-center justify-end gap-1 lg:flex-1 lg:gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate("/shop")}
+                aria-label="Search"
+              >
                 <Search size={20} />
               </Button>
-              <Button variant="ghost" size="icon" onClick={() => navigate(user ? "/wishlist" : "/auth")} aria-label="Wishlist">
+
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate(user ? "/wishlist" : "/auth")}
+                aria-label="Wishlist"
+              >
                 <Heart size={20} />
               </Button>
+
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -83,32 +177,54 @@ export default function Header() {
                       <User size={20} />
                     </Button>
                   </DropdownMenuTrigger>
+
                   <DropdownMenuContent align="end" className="w-56">
                     <div className="px-2 py-2 text-sm">
-                      <p className="font-medium truncate">{user.email}</p>
-                      {isAdmin && <p className="text-xs text-gold-deep mt-0.5">Admin</p>}
+                      <p className="truncate font-medium">{user.email}</p>
+                      {isAdmin && (
+                        <p className="mt-0.5 text-xs text-gold-deep">Admin</p>
+                      )}
                     </div>
+
                     <DropdownMenuSeparator />
+
                     <DropdownMenuItem onClick={() => navigate("/wishlist")}>
-                      <Heart size={16} className="mr-2" /> My Wishlist
+                      <Heart size={16} className="mr-2" />
+                      My Wishlist
                     </DropdownMenuItem>
+
                     {isAdmin && (
                       <DropdownMenuItem onClick={() => navigate("/admin")}>
-                        <LayoutDashboard size={16} className="mr-2" /> Admin Panel
+                        <LayoutDashboard size={16} className="mr-2" />
+                        Admin Panel
                       </DropdownMenuItem>
                     )}
+
                     <DropdownMenuSeparator />
+
                     <DropdownMenuItem onClick={signOut}>
-                      <LogOut size={16} className="mr-2" /> Sign out
+                      <LogOut size={16} className="mr-2" />
+                      Sign out
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Button variant="ghost" size="icon" onClick={() => navigate("/auth")} aria-label="Account">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => navigate("/auth")}
+                  aria-label="Account"
+                >
                   <User size={20} />
                 </Button>
               )}
-              <Button variant="default" size="sm" className="hidden md:inline-flex ml-2" onClick={() => navigate("/shop")}>
+
+              <Button
+                variant="default"
+                size="sm"
+                className="ml-2 hidden md:inline-flex"
+                onClick={() => navigate("/shop")}
+              >
                 <ShoppingBag size={16} className="mr-2" />
                 Shop
               </Button>
@@ -117,14 +233,33 @@ export default function Header() {
 
           {/* Mobile nav */}
           {open && (
-            <nav className="lg:hidden py-4 border-t border-border space-y-1 animate-fade-in">
-              <Link to="/" onClick={() => setOpen(false)} className="block px-2 py-3 text-sm uppercase tracking-wide">Home</Link>
+            <nav className="animate-fade-in space-y-1 border-t border-border py-4 lg:hidden">
+              <Link
+                to="/"
+                onClick={() => setOpen(false)}
+                className="block px-2 py-3 text-sm uppercase tracking-wide"
+              >
+                Home
+              </Link>
+
               {CATEGORIES.map((c) => (
-                <Link key={c.slug} to={`/shop/${c.slug}`} onClick={() => setOpen(false)} className="block px-2 py-3 text-sm uppercase tracking-wide">
+                <Link
+                  key={c.slug}
+                  to={`/shop/${c.slug}`}
+                  onClick={() => setOpen(false)}
+                  className="block px-2 py-3 text-sm uppercase tracking-wide"
+                >
                   {c.label}
                 </Link>
               ))}
-              <Link to="/shop" onClick={() => setOpen(false)} className="block px-2 py-3 text-sm uppercase tracking-wide">Shop All</Link>
+
+              <Link
+                to="/shop"
+                onClick={() => setOpen(false)}
+                className="block px-2 py-3 text-sm uppercase tracking-wide"
+              >
+                Shop All
+              </Link>
             </nav>
           )}
         </div>
