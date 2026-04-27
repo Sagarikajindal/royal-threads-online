@@ -32,6 +32,29 @@ const categories = [
   },
 ];
 
+const trustItems = [
+  {
+    icon: Sparkles,
+    label: "Curated Pieces",
+    sub: "From Chandni Chowk",
+  },
+  {
+    icon: Truck,
+    label: "Worldwide Shipping",
+    sub: "Delivery available",
+  },
+  {
+    icon: ShieldCheck,
+    label: "Premium Fabric",
+    sub: "Quality assured",
+  },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp Shopping",
+    sub: "Video consult available",
+  },
+];
+
 export default function Home() {
   const [featured, setFeatured] = useState<ProductCardData[]>([]);
 
@@ -59,9 +82,14 @@ export default function Home() {
       .eq("featured", true)
       .order("created_at", { ascending: false })
       .limit(8)
-      .then(({ data }) => {
-        if (data) setFeatured(data as any);
-        else setFeatured([]);
+      .then(({ data, error }) => {
+        if (error) {
+          console.error("Error loading featured products:", error);
+          setFeatured([]);
+          return;
+        }
+
+        setFeatured((data as ProductCardData[]) ?? []);
       });
   }, []);
 
@@ -126,36 +154,22 @@ export default function Home() {
       {/* TRUST BAR */}
       <section className="border-b border-border bg-secondary/40">
         <div className="container mx-auto grid grid-cols-2 gap-6 px-4 py-6 text-center md:grid-cols-4">
-          {[
-            {
-              icon: Sparkles,
-              label: "Curated Pieces",
-              sub: "From Chandni Chowk",
-            },
-            {
-              icon: Truck,
-              label: "Worldwide Shipping",
-              sub: "Delivery available",
-            },
-            {
-              icon: ShieldCheck,
-              label: "Premium Fabric",
-              sub: "Quality assured",
-            },
-            {
-              icon: MessageCircle,
-              label: "WhatsApp Shopping",
-              sub: "Video consult available",
-            },
-          ].map((f) => (
-            <div key={f.label} className="flex items-center justify-center gap-3">
-              <f.icon className="shrink-0 text-gold-deep" size={22} />
-              <div className="text-left">
-                <p className="text-sm font-medium">{f.label}</p>
-                <p className="text-xs text-muted-foreground">{f.sub}</p>
+          {trustItems.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <div
+                key={item.label}
+                className="flex items-center justify-center gap-3"
+              >
+                <Icon className="shrink-0 text-gold-deep" size={22} />
+                <div className="text-left">
+                  <p className="text-sm font-medium">{item.label}</p>
+                  <p className="text-xs text-muted-foreground">{item.sub}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -165,22 +179,24 @@ export default function Home() {
           <p className="mb-3 text-xs uppercase tracking-[0.3em] text-gold-deep">
             Our Edits
           </p>
+
           <h2 className="mb-4 font-serif text-4xl text-primary md:text-5xl">
             Shop by Category
           </h2>
+
           <div className="ornament-divider mx-auto max-w-xs">✦</div>
         </div>
 
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-          {categories.map((c) => (
+          {categories.map((category) => (
             <Link
-              key={c.slug}
-              to={`/shop/${c.slug}`}
+              key={category.slug}
+              to={`/shop/${category.slug}`}
               className="group relative block aspect-[3/4] overflow-hidden"
             >
               <img
-                src={c.img}
-                alt={c.label}
+                src={category.img}
+                alt={category.label}
                 loading="lazy"
                 className="h-full w-full object-cover transition-smooth duration-700 group-hover:scale-105"
               />
@@ -189,9 +205,13 @@ export default function Home() {
 
               <div className="absolute bottom-0 left-0 right-0 p-8 text-primary-foreground">
                 <p className="mb-2 text-xs uppercase tracking-[0.3em] text-gold-light">
-                  {c.subtitle}
+                  {category.subtitle}
                 </p>
-                <h3 className="mb-3 font-serif text-3xl">{c.label}</h3>
+
+                <h3 className="mb-3 font-serif text-3xl">
+                  {category.label}
+                </h3>
+
                 <span className="inline-flex items-center border-b border-gold-light/60 pb-1 text-sm transition-smooth group-hover:border-gold-light">
                   Explore
                   <ArrowRight size={14} className="ml-2" />
@@ -209,15 +229,17 @@ export default function Home() {
             <p className="mb-3 text-xs uppercase tracking-[0.3em] text-gold-deep">
               New Arrivals
             </p>
+
             <h2 className="mb-4 font-serif text-4xl text-primary md:text-5xl">
               Featured Pieces
             </h2>
+
             <div className="ornament-divider mx-auto max-w-xs">✦</div>
           </div>
 
           <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-            {featured.map((p) => (
-              <ProductCard key={p.id} product={p} />
+            {featured.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
 
