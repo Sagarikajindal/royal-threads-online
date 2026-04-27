@@ -1,169 +1,271 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Instagram,
-  Youtube,
-  MapPin,
-  Mail,
-  Phone,
-  Star,
+  ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  Truck,
+  MessageCircle,
 } from "lucide-react";
-import {
-  BRAND_NAME,
-  BRAND_TAGLINE,
-  BRAND_PHONE,
-  BRAND_EMAIL,
-  BRAND_ADDRESS,
-} from "@/lib/brand";
-import logo from "@/assets/logo.png";
+import Layout from "@/components/Layout";
+import ProductCard, { ProductCardData } from "@/components/ProductCard";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import heroImg from "@/assets/hero-lehenga.jpg";
+import catLehenga from "@/assets/cat-lehenga.jpg";
+import catSaree from "@/assets/cat-saree.jpg";
+import bannerCraft from "@/assets/banner-craft.jpg";
+import { BRAND_NAME } from "@/lib/brand";
 
-const INSTAGRAM_URL =
-  "https://www.instagram.com/jindalvastrakala?igsh=aWV4ZGl5M2lkOGll&utm_source=qr";
-
-const YOUTUBE_URL = "https://www.youtube.com/@JindalVastrakala/shorts";
-
-const GOOGLE_REVIEW_URL =
-  "https://www.google.com/maps/place/Jindal+Vastrakala/@28.6534025,77.228285,17z/data=!4m8!3m7!1s0x390cfd4a677d4e95:0x1301e84ab14a9b27!8m2!3d28.6534025!4d77.228285!9m1!1b1!16s%2Fg%2F11xny4bqlx?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D";
-
-const FOOTER_SHOP_LINKS = [
-  { label: "Shop All", href: "/shop" },
-  { label: "Lehengas", href: "/shop/lehenga" },
-  { label: "Sarees", href: "/shop/saree" },
+const categories = [
+  {
+    slug: "lehenga",
+    label: "Lehengas",
+    subtitle: "Bridal · Festive · Designer",
+    img: catLehenga,
+  },
+  {
+    slug: "saree",
+    label: "Sarees",
+    subtitle: "Silk · Banarasi · Party Wear",
+    img: catSaree,
+  },
 ];
 
-export default function Footer() {
+export default function Home() {
+  const [featured, setFeatured] = useState<ProductCardData[]>([]);
+
+  useEffect(() => {
+    document.title = `${BRAND_NAME} — Premium Sarees & Bridal Lehengas from Chandni Chowk`;
+
+    const meta =
+      document.querySelector('meta[name="description"]') ??
+      document.head.appendChild(
+        Object.assign(document.createElement("meta"), {
+          name: "description",
+        })
+      );
+
+    meta.setAttribute(
+      "content",
+      "Shop premium sarees, bridal lehengas, festive lehengas, and ethnic wear from Chandni Chowk, New Delhi. Curated for weddings, festivals, parties, and special occasions."
+    );
+
+    supabase
+      .from("products")
+      .select(
+        "id,name,slug,price,original_price,category,in_stock,product_images(url,position)"
+      )
+      .eq("featured", true)
+      .order("created_at", { ascending: false })
+      .limit(8)
+      .then(({ data }) => {
+        if (data) setFeatured(data as any);
+        else setFeatured([]);
+      });
+  }, []);
+
   return (
-    <footer className="border-t border-border bg-primary-deep text-primary-foreground">
-      <div className="container mx-auto px-4 py-14">
-        <div className="grid gap-10 md:grid-cols-4">
-          {/* Brand */}
-          <div className="md:col-span-1">
-            <Link to="/" className="mb-4 flex items-center gap-3">
-              <img
-                src={logo}
-                alt={BRAND_NAME}
-                className="h-12 w-12 object-contain"
-                width={48}
-                height={48}
-              />
-              <span className="font-serif text-2xl font-semibold">
-                {BRAND_NAME}
-              </span>
-            </Link>
+    <Layout>
+      {/* HERO */}
+      <section className="relative h-[88vh] min-h-[600px] overflow-hidden">
+        <img
+          src={heroImg}
+          alt="Premium bridal lehenga from Chandni Chowk"
+          className="absolute inset-0 h-full w-full object-cover"
+          width={1920}
+          height={1080}
+        />
 
-            <p className="mb-3 text-sm text-primary-foreground/80">
-              {BRAND_TAGLINE}
-            </p>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-deep/30 via-primary-deep/20 to-primary-deep/70" />
 
-            <p className="text-sm leading-relaxed text-primary-foreground/70">
-              Premium sarees and lehengas curated from Chandni Chowk, New Delhi
-              for weddings, festivals, and special occasions.
-            </p>
-          </div>
+        <div className="relative z-10 flex h-full items-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl animate-fade-up text-primary-foreground">
+              <p className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-gold-light">
+                <span className="h-px w-12 bg-gold-light" />
+                Chandni Chowk Edit 2026
+              </p>
 
-          {/* Shop */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-gold-light">
-              Shop
-            </h3>
+              <h1 className="text-balance mb-6 font-serif text-5xl leading-[1.05] md:text-7xl">
+                Threads of Heritage,
+                <br />
+                <span className="text-gradient-gold italic">
+                  Woven for You
+                </span>
+              </h1>
 
-            <ul className="space-y-3">
-              {FOOTER_SHOP_LINKS.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    to={item.href}
-                    className="text-sm text-primary-foreground/75 transition-colors hover:text-gold-light"
-                  >
-                    {item.label}
+              <p className="mb-8 max-w-xl text-lg leading-relaxed text-white/90 md:text-xl">
+                Shop premium sarees, bridal lehengas, festive lehengas, and
+                ethnic wear from Chandni Chowk, New Delhi, curated for every
+                wedding, festival, and celebration.
+              </p>
+
+              <div className="flex flex-wrap gap-4">
+                <Button asChild size="lg" variant="gold">
+                  <Link to="/shop">
+                    Shop The Collection
+                    <ArrowRight className="ml-2" size={18} />
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+                </Button>
 
-          {/* Contact */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-gold-light">
-              Contact
-            </h3>
-
-            <ul className="space-y-4 text-sm text-primary-foreground/75">
-              <li className="flex gap-3">
-                <MapPin size={18} className="mt-0.5 shrink-0 text-gold-light" />
-                <span>{BRAND_ADDRESS}</span>
-              </li>
-
-              <li className="flex items-center gap-3">
-                <Phone size={18} className="shrink-0 text-gold-light" />
-                <a
-                  href={`tel:${BRAND_PHONE.replace(/\s/g, "")}`}
-                  className="transition-colors hover:text-gold-light"
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-primary-foreground bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary"
                 >
-                  {BRAND_PHONE}
-                </a>
-              </li>
-
-              <li className="flex items-center gap-3">
-                <Mail size={18} className="shrink-0 text-gold-light" />
-                <a
-                  href={`mailto:${BRAND_EMAIL}`}
-                  className="transition-colors hover:text-gold-light"
-                >
-                  {BRAND_EMAIL}
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Follow */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-gold-light">
-              Follow
-            </h3>
-
-            <div className="mb-5 flex items-center gap-3">
-              <a
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Follow Jindal Vastrakala on Instagram"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-primary-foreground/20 text-primary-foreground transition-colors hover:border-gold-light hover:bg-gold-light hover:text-primary-deep"
-              >
-                <Instagram size={19} />
-              </a>
-
-              <a
-                href={YOUTUBE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Watch Jindal Vastrakala on YouTube"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-primary-foreground/20 text-primary-foreground transition-colors hover:border-gold-light hover:bg-gold-light hover:text-primary-deep"
-              >
-                <Youtube size={21} />
-              </a>
+                  <Link to="/shop/lehenga">Bridal Lehengas</Link>
+                </Button>
+              </div>
             </div>
-
-            <a
-              href={GOOGLE_REVIEW_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-gold-light/50 px-4 py-2 text-sm font-medium text-gold-light transition-colors hover:bg-gold-light hover:text-primary-deep"
-            >
-              <Star size={16} />
-              Read Google Reviews
-            </a>
-
-            <p className="mt-4 text-sm text-primary-foreground/70">
-              7.2k+ YouTube subscribers · Daily new arrivals · Customer-loved
-              ethnicwear.
-            </p>
           </div>
         </div>
+      </section>
 
-        <div className="mt-12 border-t border-primary-foreground/15 pt-6 text-center text-xs text-primary-foreground/60">
-          © {new Date().getFullYear()} {BRAND_NAME}. All rights reserved.
-          Crafted with love in New Delhi.
+      {/* TRUST BAR */}
+      <section className="border-b border-border bg-secondary/40">
+        <div className="container mx-auto grid grid-cols-2 gap-6 px-4 py-6 text-center md:grid-cols-4">
+          {[
+            {
+              icon: Sparkles,
+              label: "Curated Pieces",
+              sub: "From Chandni Chowk",
+            },
+            {
+              icon: Truck,
+              label: "Worldwide Shipping",
+              sub: "Delivery available",
+            },
+            {
+              icon: ShieldCheck,
+              label: "Premium Fabric",
+              sub: "Quality assured",
+            },
+            {
+              icon: MessageCircle,
+              label: "WhatsApp Shopping",
+              sub: "Video consult available",
+            },
+          ].map((f) => (
+            <div key={f.label} className="flex items-center justify-center gap-3">
+              <f.icon className="shrink-0 text-gold-deep" size={22} />
+              <div className="text-left">
+                <p className="text-sm font-medium">{f.label}</p>
+                <p className="text-xs text-muted-foreground">{f.sub}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
-    </footer>
+      </section>
+
+      {/* CATEGORIES */}
+      <section className="container mx-auto px-4 py-20">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-xs uppercase tracking-[0.3em] text-gold-deep">
+            Our Edits
+          </p>
+          <h2 className="mb-4 font-serif text-4xl text-primary md:text-5xl">
+            Shop by Category
+          </h2>
+          <div className="ornament-divider mx-auto max-w-xs">✦</div>
+        </div>
+
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              to={`/shop/${c.slug}`}
+              className="group relative block aspect-[3/4] overflow-hidden"
+            >
+              <img
+                src={c.img}
+                alt={c.label}
+                loading="lazy"
+                className="h-full w-full object-cover transition-smooth duration-700 group-hover:scale-105"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-deep/90 via-primary-deep/20 to-transparent" />
+
+              <div className="absolute bottom-0 left-0 right-0 p-8 text-primary-foreground">
+                <p className="mb-2 text-xs uppercase tracking-[0.3em] text-gold-light">
+                  {c.subtitle}
+                </p>
+                <h3 className="mb-3 font-serif text-3xl">{c.label}</h3>
+                <span className="inline-flex items-center border-b border-gold-light/60 pb-1 text-sm transition-smooth group-hover:border-gold-light">
+                  Explore
+                  <ArrowRight size={14} className="ml-2" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURED */}
+      {featured.length > 0 && (
+        <section className="container mx-auto px-4 py-12">
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-xs uppercase tracking-[0.3em] text-gold-deep">
+              New Arrivals
+            </p>
+            <h2 className="mb-4 font-serif text-4xl text-primary md:text-5xl">
+              Featured Pieces
+            </h2>
+            <div className="ornament-divider mx-auto max-w-xs">✦</div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button asChild variant="outline" size="lg">
+              <Link to="/shop">
+                View All Products
+                <ArrowRight size={16} className="ml-2" />
+              </Link>
+            </Button>
+          </div>
+        </section>
+      )}
+
+      {/* CRAFT BANNER */}
+      <section className="relative my-20 overflow-hidden">
+        <img
+          src={bannerCraft}
+          alt="Indian textile craftsmanship"
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+
+        <div className="absolute inset-0 bg-primary-deep/70" />
+
+        <div className="relative z-10 container mx-auto px-4 py-24 text-center text-primary-foreground">
+          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-gold-light">
+            Our Heritage
+          </p>
+
+          <h2 className="text-balance mx-auto mb-6 max-w-3xl font-serif text-4xl leading-tight md:text-6xl">
+            Every weave tells a story.{" "}
+            <span className="text-gradient-gold italic">
+              Yours begins here.
+            </span>
+          </h2>
+
+          <p className="mx-auto mb-8 max-w-2xl text-lg opacity-90">
+            Rooted in Chandni Chowk, every Jindal Vastrakala piece is curated
+            with love — bringing elegant sarees and lehengas for weddings,
+            festivals, and everyday celebrations.
+          </p>
+
+          <Button asChild variant="gold" size="lg">
+            <Link to="/shop">Discover the Collection</Link>
+          </Button>
+        </div>
+      </section>
+    </Layout>
   );
 }
