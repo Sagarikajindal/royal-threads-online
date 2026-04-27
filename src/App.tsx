@@ -12,6 +12,7 @@ import Wishlist from "./pages/Wishlist.tsx";
 import Admin from "./pages/Admin.tsx";
 import AdminProductForm from "./pages/AdminProductForm.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import CustomerReviews from "./pages/CustomerReviews";
 
 const queryClient = new QueryClient();
 
