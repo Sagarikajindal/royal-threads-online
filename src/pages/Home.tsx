@@ -143,7 +143,7 @@ export default function Home() {
             Every weave tells a story. <span className="italic text-gradient-gold">Yours begins here.</span>
           </h2>
           <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8">
-            Born in the heart of New Delhi, each Saanvi piece is crafted by master artisans using techniques passed down through generations.
+            Rooted in Chandni Chowk, every Jindal Vastrakala piece is curated with love, bringing elegant sarees, and lehengas for weddings, festivals, and everyday celebrations.
           </p>
           <Button asChild variant="gold" size="lg">
             <Link to="/shop">Discover the Collection</Link>
