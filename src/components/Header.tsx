@@ -36,6 +36,7 @@ const NAV_LINKS = [
   { label: "Shop All", href: "/shop" },
   { label: "Lehengas", href: "/shop/lehenga" },
   { label: "Sarees", href: "/shop/saree" },
+  { label: "Customer Reviews", href: "/customer-reviews" },
 ];
 
 export default function Header() {
@@ -116,19 +117,20 @@ export default function Header() {
                 width={48}
                 height={48}
               />
+
               <span className="hidden font-serif text-2xl font-semibold text-primary sm:block">
                 {BRAND_NAME}
               </span>
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden flex-1 items-center justify-center gap-10 lg:flex">
+            <nav className="hidden flex-1 items-center justify-center gap-6 lg:flex xl:gap-7">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}
                   className={cn(
-                    "relative text-sm font-semibold uppercase tracking-[0.14em] transition-smooth after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:text-primary hover:after:w-full",
+                    "relative whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.12em] transition-smooth after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:text-primary hover:after:w-full xl:text-[12px]",
                     isActive(link.href)
                       ? "text-primary after:w-full"
                       : "text-foreground/80"
@@ -170,6 +172,7 @@ export default function Header() {
                   <DropdownMenuContent align="end" className="w-56">
                     <div className="px-2 py-2 text-sm">
                       <p className="truncate font-medium">{user.email}</p>
+
                       {isAdmin && (
                         <p className="mt-0.5 text-xs text-gold-deep">Admin</p>
                       )}
