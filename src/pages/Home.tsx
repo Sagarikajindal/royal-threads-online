@@ -97,7 +97,7 @@ export default function Home() {
 
               <p className="mb-8 max-w-xl text-lg leading-relaxed text-white/90 md:text-xl">
                 Shop premium sarees, bridal lehengas, festive lehengas, and
-                ethnic wear from Chandni Chowk, New Delhi — curated for every
+                ethnic wear from Chandni Chowk, New Delhi, curated for every
                 wedding, festival, and celebration.
               </p>
 
