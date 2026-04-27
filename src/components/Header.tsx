@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/contexts/AuthContext";
-import { BRAND_NAME, CATEGORIES } from "@/lib/brand";
+import { BRAND_NAME } from "@/lib/brand";
 import logo from "@/assets/logo.png";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +30,12 @@ const TICKER_ITEMS = [
   "Sarees, Lehengas & Suits",
   "Video Shopping Available on WhatsApp",
   "Bridal & Festive Collections",
+];
+
+const NAV_LINKS = [
+  { label: "Shop All", href: "/shop" },
+  { label: "Lehengas", href: "/shop/lehenga" },
+  { label: "Sarees", href: "/shop/saree" },
 ];
 
 export default function Header() {
@@ -76,7 +82,10 @@ export default function Header() {
               className="flex shrink-0 items-center gap-6 px-4 text-[11px] font-medium uppercase tracking-[0.28em] md:gap-8 md:text-xs"
             >
               {TICKER_ITEMS.map((item) => (
-                <div key={`${groupIndex}-${item}`} className="flex items-center gap-6 md:gap-8">
+                <div
+                  key={`${groupIndex}-${item}`}
+                  className="flex items-center gap-6 md:gap-8"
+                >
                   <span>{item}</span>
                   <span className="opacity-50">•</span>
                 </div>
@@ -114,40 +123,20 @@ export default function Header() {
 
             {/* Desktop nav */}
             <nav className="hidden flex-1 items-center justify-center gap-10 lg:flex">
-              <Link
-                to="/"
-                className={cn(
-                  "text-sm font-medium uppercase tracking-wide transition-smooth hover:text-primary",
-                  isActive("/") ? "text-primary" : "text-foreground"
-                )}
-              >
-                Home
-              </Link>
-
-              {CATEGORIES.map((c) => (
+              {NAV_LINKS.map((link) => (
                 <Link
-                  key={c.slug}
-                  to={`/shop/${c.slug}`}
+                  key={link.href}
+                  to={link.href}
                   className={cn(
-                    "text-sm font-medium uppercase tracking-wide transition-smooth hover:text-primary",
-                    isActive(`/shop/${c.slug}`)
-                      ? "text-primary"
-                      : "text-foreground"
+                    "relative text-sm font-semibold uppercase tracking-[0.14em] transition-smooth after:absolute after:-bottom-2 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:text-primary hover:after:w-full",
+                    isActive(link.href)
+                      ? "text-primary after:w-full"
+                      : "text-foreground/80"
                   )}
                 >
-                  {c.label}
+                  {link.label}
                 </Link>
               ))}
-
-              <Link
-                to="/shop"
-                className={cn(
-                  "text-sm font-medium uppercase tracking-wide transition-smooth hover:text-primary",
-                  isActive("/shop") ? "text-primary" : "text-foreground"
-                )}
-              >
-                Shop All
-              </Link>
             </nav>
 
             {/* Actions */}
@@ -234,32 +223,19 @@ export default function Header() {
           {/* Mobile nav */}
           {open && (
             <nav className="animate-fade-in space-y-1 border-t border-border py-4 lg:hidden">
-              <Link
-                to="/"
-                onClick={() => setOpen(false)}
-                className="block px-2 py-3 text-sm uppercase tracking-wide"
-              >
-                Home
-              </Link>
-
-              {CATEGORIES.map((c) => (
+              {NAV_LINKS.map((link) => (
                 <Link
-                  key={c.slug}
-                  to={`/shop/${c.slug}`}
+                  key={link.href}
+                  to={link.href}
                   onClick={() => setOpen(false)}
-                  className="block px-2 py-3 text-sm uppercase tracking-wide"
+                  className={cn(
+                    "block px-2 py-3 text-sm font-medium uppercase tracking-wide",
+                    isActive(link.href) ? "text-primary" : "text-foreground"
+                  )}
                 >
-                  {c.label}
+                  {link.label}
                 </Link>
               ))}
-
-              <Link
-                to="/shop"
-                onClick={() => setOpen(false)}
-                className="block px-2 py-3 text-sm uppercase tracking-wide"
-              >
-                Shop All
-              </Link>
             </nav>
           )}
         </div>
