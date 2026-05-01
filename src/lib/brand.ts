@@ -30,5 +30,5 @@ export const slugify = (s: string) =>
 export const CATEGORIES = [
   { slug: "lehenga", label: "Lehengas" },
   { slug: "saree", label: "Sarees" },
-  { slug: "suit", label: "Unstitched Suits" },
+ 
 ] as const;
