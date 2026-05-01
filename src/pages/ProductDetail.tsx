@@ -11,6 +11,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { buildWhatsAppLink, formatINR, BRAND_NAME } from "@/lib/brand";
 import { cn } from "@/lib/utils";
+// ✅ NEW: Shopify imports
+import { ShopifyBuyButton } from "@/components/ShopifyBuyButton";
+import { SHOPIFY_CONFIG } from "@/shopify.config";
 
 interface Product {
   id: string;
@@ -24,6 +27,7 @@ interface Product {
   color: string | null;
   in_stock: boolean;
   reel_url: string | null;
+  shopify_id: string | null; // ✅ NEW: Shopify product ID field
   product_images: { url: string; position: number }[];
 }
 
@@ -200,6 +204,20 @@ export default function ProductDetail() {
             <div><span className="text-muted-foreground">Origin:</span> <span className="font-medium">New Delhi, India</span></div>
           </div>
 
+          {/* ✅ NEW: Shopify Buy Button — shows UPI / Card / COD checkout */}
+          {product.shopify_id && (
+            <div className="mb-4">
+              <ShopifyBuyButton
+                productId={product.shopify_id}
+                storefrontToken={SHOPIFY_CONFIG.storefrontToken}
+                shopDomain={SHOPIFY_CONFIG.domain}
+                buttonText="Buy Now — Pay with UPI / Card / COD"
+                className="w-full"
+              />
+            </div>
+          )}
+
+          {/* Existing WhatsApp button — unchanged */}
           <div className="flex gap-3 mb-6">
             <Button asChild size="lg" className="flex-1" disabled={!product.in_stock}>
               <a href={buildWhatsAppLink(product.name, window.location.href)} target="_blank" rel="noreferrer">
